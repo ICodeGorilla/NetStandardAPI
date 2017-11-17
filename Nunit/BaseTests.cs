@@ -9,9 +9,9 @@ namespace NTests
 {
     public class BaseTests
     {
-        public IServiceProvider ServiceProvider;
-        public IDatabaseFactory DatabaseFactory { get; }
-        public IDbContextTransaction Transaction { get; set; }
+        public readonly IServiceProvider ServiceProvider;
+        public readonly IDatabaseFactory DatabaseFactory;
+        public IDbContextTransaction Transaction;
 
         public BaseTests()
         {
