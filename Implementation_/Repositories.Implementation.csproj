@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Contract_\Repositories.Contract.csproj" />
+    <ProjectReference Include="..\Shared.Core.Repository\Shared.Core.Repository.csproj" />
+    <ProjectReference Include="..\SharedLibraryDatabase\SharedLibraryDatabase.csproj" />
+  </ItemGroup>
+
+</Project>

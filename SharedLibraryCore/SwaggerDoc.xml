@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SharedLibraryCore</name>
+    </assembly>
+    <members>
+        <member name="M:SharedLibraryCore.Controllers.AccountController.Get">
+            <summary>
+            Get all accounts, do not include account contacts
+            </summary>
+        </member>
+        <member name="M:SharedLibraryCore.Controllers.AccountController.Get(System.Int32)">
+            <summary>
+            Get account by Id, includes contact
+            </summary>
+            <param name="id">Account Id</param>     
+        </member>
+        <member name="M:SharedLibraryCore.Controllers.AccountController.Post(Service.DTO.AccountDto)">
+            <summary>
+            Post account, will update or create account based on Id
+            </summary>
+            <param name="value">Account DTO</param>   
+        </member>
+        <member name="M:SharedLibraryCore.Controllers.AccountController.Delete(System.Int32)">
+            <summary>
+            Delete account by Id
+            </summary>
+            <param name="id">Id of account</param>     
+        </member>
+    </members>
+</doc>
