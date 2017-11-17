@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 
@@ -7,9 +6,9 @@ namespace NTests
 {
     public static class ActionResultExtension
     {
-        public static T GetOkObjectResult<T>(this Task<IActionResult> task)
+        public static async Task<T> GetOkObjectResult<T>(this Task<IActionResult> task)
         {
-            var actionResult = GetAwaitedActionResult(task);
+            var actionResult = await task;
             Assert.That(actionResult, Is.TypeOf(typeof(OkObjectResult)), "The request was not OK as expected.");
             var okResult = (OkObjectResult)actionResult;
             return (T)okResult.Value;
@@ -35,9 +34,9 @@ namespace NTests
             CheckResult<OkResult>(task);
         }
 
-        private static void CheckResult<T>(Task<IActionResult> task)
+        private static async void CheckResult<T>(Task<IActionResult> task)
         {
-            var actionResult = GetAwaitedActionResult(task);
+            var actionResult = await task;
             AssertResult<T>(actionResult);
         }
 
@@ -46,9 +45,5 @@ namespace NTests
             Assert.That(actionResult, Is.TypeOf(typeof(T)), $"The request was not a {typeof(T).FullName} as expected.");
         }
 
-        private static IActionResult GetAwaitedActionResult(Task<IActionResult> task)
-        {
-            return Task.WhenAll(task).Result.First();
-        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Service.DTO;
 using Shared.Core.Helper.Test;
@@ -14,14 +15,14 @@ namespace NTests
         //When I create it
         //Then I should be able to retrieve it by ID
         [Test]
-        public void SaveAccountSuccessfullyTest()
+        public async Task SaveAccountSuccessfullyTest()
         {
             //Given
             var accountController = ServiceProvider.ResolveController<AccountController>();
             var expected = GetTestingAccountDto();
 
             //When
-            var actual = accountController.Post(expected).GetOkObjectResult<AccountDto>();
+            var actual = await accountController.Post(expected).GetOkObjectResult<AccountDto>();
             
             //Then
             EqualityHelper.PropertyValuesAreEqual(expected, actual, new[]{ "AccountId", "LastModifiedBy", "LastModified", "Contact" });
@@ -32,14 +33,14 @@ namespace NTests
         //When I retrieve all of them
         //Then I should see the one item I added in 
         [Test]
-        public void GetAllAccountSuccessfullyTest()
+        public async Task GetAllAccountSuccessfullyTest()
         {
             //Given
             var accountController = ServiceProvider.ResolveController<AccountController>();
-            var expected = CreateAccountForTest(accountController);
+            var expected = await CreateAccountForTest(accountController);
 
             //When
-            var allAccounts = accountController.Get().GetOkObjectResult<List<AccountDto>>();
+            var allAccounts = await accountController.Get().GetOkObjectResult<List<AccountDto>>();
 
             //Then
             var actual = allAccounts.First(x => x.AccountId == expected.AccountId);
@@ -64,14 +65,14 @@ namespace NTests
         //When I retrieve it with an ID
         //Then it should match the expected item
         [Test]
-        public void RetrieveAccountByIdSuccessfullyTest()
+        public async Task RetrieveAccountByIdSuccessfullyTest()
         {
             //Given
             var accountController = ServiceProvider.ResolveController<AccountController>();
-            var expected = CreateAccountForTest(accountController);
+            var expected = await CreateAccountForTest(accountController);
 
             //When
-            var actual = accountController.Get(expected.AccountId).GetOkObjectResult<AccountDto>();
+            var actual = await accountController.Get(expected.AccountId).GetOkObjectResult<AccountDto>();
 
             //Then
             EqualityHelper.PropertyValuesAreEqual(expected, actual, new[] { "Contact" });
@@ -95,11 +96,11 @@ namespace NTests
         //When I delete it
         //Then I should not be able to retrieve it
         [Test]
-        public void DeleteAccountuccessfullyTest()
+        public async Task DeleteAccountuccessfullyTest()
         {
             //Given
             var accountController = ServiceProvider.ResolveController<AccountController>();
-            var savedAccount = CreateAccountForTest(accountController);
+            var savedAccount = await CreateAccountForTest(accountController);
 
             //When
             accountController.Delete(savedAccount.AccountId).CheckOkResult();
@@ -121,10 +122,10 @@ namespace NTests
             accountController.Delete(-1).CheckOkResult();
         }
 
-        private AccountDto CreateAccountForTest(AccountController accountController)
+        private async Task<AccountDto> CreateAccountForTest(AccountController accountController)
         {
             var expected = GetTestingAccountDto();
-            return accountController.Post(expected).GetOkObjectResult<AccountDto>();
+            return await accountController.Post(expected).GetOkObjectResult<AccountDto>();
         }
 
         private static AccountDto GetTestingAccountDto()
